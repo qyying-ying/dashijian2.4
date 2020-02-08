@@ -26,12 +26,12 @@
                 <i class="iconfont icon-key"></i>
                 <input type="text" class="input_txt" placeholder="用户名" id="yonghu">
                 <input type="password" class="input_pass" placeholder="密码" id="mima">
-                <input type="button" class="input_sub" value="登 录" id="fasong">
+                <input type="button" class="input_sub" value="登 录" id="btnLogin">
             </form>
         </div>
     </div>
 </body>
-<!-- 引入地址文件 -->
+引入地址文件
 <script src="./js/config.js">
 </script>
 <!-- 引入功能文件 -->
@@ -41,17 +41,53 @@
     // 1.1 执行思路 获取登录ID 注册点击事件
     // 1.2 点击登录按钮 获取数据 用获取到的数据发送AJAX
     // 1.3 利用回调 做进一步的数据优化
-    $("#fasong").click(function () {
-        var name = $("#yonghu").val().trim();
-        var password = $("#mima").val().trim();
-        if (name.length == 0 || password == 0) {
-            alert("请输入内容");
-            return;
+    // $("#fasong").click(function () {
+    //     var name = $("#yonghu").val().trim();
+    //     var password = $("#mima").val().trim();
+    //     if (name.length == 0 || password == 0) {
+    //         alert("请输入内容");
+    //         return;
+    //     }
+    //     // 执行代码
+    //     user.login(name, password);
+    // })
+    $('#btnLogin').click(function () {
+        var name = $('#yonghu').val().trim();
+        var password = $('#mima').val().trim();
+        if (name.length === 0 || password.length === 0) {
+            alert('不能为空')
+            return
         }
-        // 执行代码
-        user.login(name, password);
-    })
+        console.log(name, password);
+        // $post(url,shuju).then(huidiao)
+        // 简写
+        // $.post('http://192.168.2.103:8000/admin/login', {
+        //     'user_name': name,
+        //     'password': password,
+        // }).then(function (res) {
+        //     console.log(res);
 
+        // })
+        // console.log(name, password);
+        $.ajax({
+            url: 'http://192.168.2.103:8000/admin/login',
+            type: 'post',
+            data: {
+                'user_name': name,
+                'password': password,
+            },
+            success: function (res) {
+                console.log(res);
+                if(res.code === 200){
+                    alert('dengluchenggong')
+                } else {
+                    // 失败 直接打出错误信息
+                    alert(res.msg)
+                }
+            }
+        },
+        )
+    })
 </script>
 
 </html>
